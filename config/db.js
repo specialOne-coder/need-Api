@@ -8,6 +8,5 @@ mongoose
             useCreateIndex: true,
             useFindAndModify: false
         })
-    .then(()=> console.log("Connected to MongoDB"))
-    .catch((err)=> console.log("Erreur",err));
-    
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.log("Erreur", err));

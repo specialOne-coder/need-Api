@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
             validate: [isEmail],
+            unique:true,
             lowercase: true,
             trim: true,
         },
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             require: true,
             max: 1024,
-            minLength: 6
+            minlength: 6
         },
         pictures: {
             type: String,
@@ -50,11 +51,23 @@ const userSchema = new mongoose.Schema(
 )
 
 // Avant les saves executer cette fonction.
-userSchema.pre("save",async function(next){
+userSchema.pre("save", async function (next) {
     const salt = await bycrypt.genSalt();
-    this.password = await bycrypt.hash(this.password,salt);
+    this.password = await bycrypt.hash(this.password, salt);
     next();
 });
+
+userSchema.statics.login = async function (email, password) {
+    const user = await this.findOne({ email });
+    if (user) {
+        const auth = await bycrypt.compare(password, user.password);
+        if (auth) {
+            return user;
+        }
+        throw Error('Incorrect password');
+    }
+    throw Error('Incorrect email');
+}
 
 const UserModel = mongoose.model('user', userSchema);
 
