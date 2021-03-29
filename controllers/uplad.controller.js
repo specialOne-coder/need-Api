@@ -13,5 +13,4 @@ module.exports.upladProfil = async (req, res) => {
     } catch (error) {
         return res.status(201).json(err);
     }
-
 }

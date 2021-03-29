@@ -13,7 +13,6 @@ module.exports.signUpErrors = (err) => {
     if (err.code === 11000 && Object.keys(err.keyValue)[0].includes("email"))
         errors.email = "Ce email existe déja";
 
-
     return errors;
 }
 
