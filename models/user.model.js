@@ -2,7 +2,7 @@ const mongoose = require('mongoose'); // pour tout ce qui fait ref a la bdd
 const { isEmail } = require('validator'); // comme son nom l'indique
 const bycrypt = require('bcrypt'); // pour crypter le password
 
-// schema du doc
+// schema du document user dans la bdd
 const userSchema = new mongoose.Schema(
     {
         pseudo: {
@@ -50,13 +50,14 @@ const userSchema = new mongoose.Schema(
     }
 )
 
-// Avant les saves executer cette fonction.
+// Avant les saves executer cette fonction .
 userSchema.pre("save", async function (next) {
     const salt = await bycrypt.genSalt();
     this.password = await bycrypt.hash(this.password, salt);
     next();
 });
 
+// connexion d'un utilisateur par email et password
 userSchema.statics.login = async function (email, password) {
     const user = await this.findOne({ email });
     if (user) {

@@ -8,6 +8,7 @@ module.exports.getAllUsers = async (req, res) => {
     res.status(200).json(users);
 }
 
+// info d'un utilisateur
 module.exports.userInfo = async (req, res) => {
     console.log(req.params);
     (!ObjectID.isValid(req.params.id)) ? res.status(400).send('ID unknow :' + req.params.id)
@@ -17,6 +18,8 @@ module.exports.userInfo = async (req, res) => {
         }).select('-password');
 }
 
+
+// mise à jour d'un utilisateur
 module.exports.updateUser = async (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id)
 
@@ -39,6 +42,7 @@ module.exports.updateUser = async (req, res) => {
     }
 }
 
+// suppression d'un utilisateur
 module.exports.deleteUser = async (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
 
@@ -83,6 +87,7 @@ module.exports.follow = async (req, res) => {
     }
 }
 
+// désabonnement
 module.exports.unfollow = async (req, res) => {
     if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.params.id))
         return res.status(400).send('ID unknow : ' + req.params.id);

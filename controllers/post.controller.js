@@ -6,7 +6,7 @@ const { promisify } = require('util');
 const pipeline = promisify(require('stream').pipeline)
 
 
-
+// liste des différents posts
 module.exports.readPost = (req, res) => {
     PostModel.find((err, docs) => {
         if (!err) res.send(docs);
@@ -14,6 +14,7 @@ module.exports.readPost = (req, res) => {
     }).sort({ createdAt: -1 });
 }
 
+// création d'un post
 module.exports.createPost = async (req, res) => {
 
     let fileName;
@@ -57,6 +58,7 @@ module.exports.createPost = async (req, res) => {
 
 }
 
+// modification d'un post
 module.exports.updatePost = (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     const updatedPost = {
@@ -75,6 +77,7 @@ module.exports.updatePost = (req, res) => {
 
 }
 
+// suppression d'un post
 module.exports.deletePost = (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
 
@@ -88,6 +91,7 @@ module.exports.deletePost = (req, res) => {
 
 }
 
+// like
 module.exports.likePost = async (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {
@@ -117,6 +121,7 @@ module.exports.likePost = async (req, res) => {
 }
 
 
+// unlike
 module.exports.unlikePost = async (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {
@@ -145,6 +150,7 @@ module.exports.unlikePost = async (req, res) => {
     }
 }
 
+// ajout d'un commentaire
 module.exports.commentPost = (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {
@@ -171,6 +177,7 @@ module.exports.commentPost = (req, res) => {
     }
 }
 
+// mise à jour d'un  commentaire
 module.exports.editCommentPost = (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {
@@ -191,6 +198,7 @@ module.exports.editCommentPost = (req, res) => {
     }
 }
 
+// suppression d'un commentaire
 module.exports.deleteCommentPost = (req, res) => {
     if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {

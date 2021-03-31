@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// modèle du document post dans la bdd
 const postSchema = mongoose.Schema(
     {
         posterId: {

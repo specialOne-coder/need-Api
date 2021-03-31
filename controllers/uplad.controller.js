@@ -4,7 +4,7 @@ const fs = require('fs');
 const { promisify } = require('util');
 const pipeline = promisify(require('stream').pipeline)
 
-
+// ajout d'une photo de profil
 module.exports.upladProfil = async (req, res) => {
     try {
         if (req.file.detectedMimeType !== "image/jpg" &&
