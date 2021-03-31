@@ -4,11 +4,11 @@ const multer = require('multer');
 const uplad = multer();
 
 router.get('/',postController.readPost);
-router.post('/',postController.createPost);
+router.post('/',uplad.single('file'),postController.createPost);
 router.put('/:id',postController.updatePost);
 router.delete('/:id',postController.deletePost);
 router.patch('/like-post/:id',postController.likePost);
-router.patch('/unlike-post/:id',postController.unlikePost);
+router.patch('/unlike-post/:id',postController.unlikePost); 
 
 // Comments
 router.patch('/comment-post/:id',postController.commentPost);
