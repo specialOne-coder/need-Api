@@ -22,7 +22,7 @@ module.exports.upladProfil = async (req, res) => {
     await pipeline(
         req.file.stream,
         fs.createWriteStream(
-            `${__dirname}/../client/public/uploads/profil/${fileName}`
+            `${__dirname}/../client/public/upload/profil/${fileName}`
         )
     )
 
@@ -37,7 +37,7 @@ module.exports.upladProfil = async (req, res) => {
            }
         )
     } catch (error) {
-        return res.status(500).send({message:err})
+        return res.status(500).send({message:error})
     }
 
 }

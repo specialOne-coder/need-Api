@@ -57,7 +57,7 @@ module.exports.deleteUser = async (req, res) => {
 
 // follow , unfollow
 module.exports.follow = async (req, res) => {
-    if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.params.id))
+    if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.body.idToFollow))
         return res.status(400).send('ID unknow : ' + req.params.id);
 
     try {
@@ -89,7 +89,7 @@ module.exports.follow = async (req, res) => {
 
 // désabonnement
 module.exports.unfollow = async (req, res) => {
-    if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.params.id))
+    if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.body.idToUnfollow))
         return res.status(400).send('ID unknow : ' + req.params.id);
 
     try {

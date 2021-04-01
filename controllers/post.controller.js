@@ -1,5 +1,6 @@
 const PostModel = require('../models/post.model');
 const UserModel = require('../models/user.model');
+const {uploadErrors} = require('../utils/error.utils')
 const ObjectID = require('mongoose').Types.ObjectId;
 const fs = require('fs');
 const { promisify } = require('util');
@@ -18,7 +19,7 @@ module.exports.readPost = (req, res) => {
 module.exports.createPost = async (req, res) => {
 
     let fileName;
-    if(req.file !== null){
+    if(req.file != null){
         try {
             if (req.file.detectedMimeType !== "image/jpg" &&
                 req.file.detectedMimeType !== "image/png" &&
@@ -35,12 +36,12 @@ module.exports.createPost = async (req, res) => {
         await pipeline(
             req.file.stream,
             fs.createWriteStream(
-                `${__dirname}/../client/public/uploads/posts/${fileName}`
+                `${__dirname}/../client/public/upload/posts/${fileName}`
             )
         )
     }
 
-    const newPost = new postModel({
+    const newPost = new PostModel({
         posterId: req.body.posterId,
         message: req.body.message,
         picture:req.file !== null ? "./upload/posts/"+fileName : '',
@@ -93,7 +94,7 @@ module.exports.deletePost = (req, res) => {
 
 // like
 module.exports.likePost = async (req, res) => {
-    if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
+    if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.body.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {
         await PostModel.findByIdAndUpdate(
             req.params.id,
@@ -123,7 +124,7 @@ module.exports.likePost = async (req, res) => {
 
 // unlike
 module.exports.unlikePost = async (req, res) => {
-    if (!ObjectID.isValid(req.params.id)) return res.status(400).send('ID unknow : ' + req.params.id);
+    if (!ObjectID.isValid(req.params.id) || !ObjectID.isValid(req.body.id)) return res.status(400).send('ID unknow : ' + req.params.id);
     try {
         await PostModel.findByIdAndUpdate(
             req.params.id,
@@ -205,7 +206,7 @@ module.exports.deleteCommentPost = (req, res) => {
         return PostModel.findByIdAndUpdate(req.params.id,
             {
                 $pull: {
-                    comments: { _id: req.body.commenterId }
+                    comments: { _id: req.body.commentId }
                 }
             },
             { new: true },

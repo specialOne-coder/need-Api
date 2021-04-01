@@ -1,4 +1,5 @@
 const UserModel = require('../models/user.model');
+const {signUpErrors,signInErrors} = require('../utils/error.utils');
 const jwt = require('jsonwebtoken');
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -7,7 +8,7 @@ const createToken = (id) => {
     return jwt.sign({ id }, process.env.TOKEN_SECRET, {
         expiresIn: maxAge
     })
-}
+};
 
 // inscription
 module.exports.signUp = async (req, res) => {
@@ -19,7 +20,7 @@ module.exports.signUp = async (req, res) => {
         const errors = signUpErrors(err);
         res.status(200).send({ errors });
     }
-}
+};
 
 // connection
 module.exports.signIn = async (req, res) => {
@@ -33,11 +34,14 @@ module.exports.signIn = async (req, res) => {
         const errors = signInErrors(error);
         res.status(500).json(errors); 
     }
-}
+};
+
 
 // deconnexion
-module.exports.logout = async (req, res) => {
+module.exports.logout = (req, res) => {
+    console.log('ça commence');
     res.cookie('jwt', '', { maxAge: 1 });
+    console.log('ça taf');
     res.redirect('/');
 }
 
